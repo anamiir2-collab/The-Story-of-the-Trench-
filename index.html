@@ -19,10 +19,10 @@
             --gold-accent: #d4af37;
             --gold-soft: #f4e8c1;
             --gold-gradient: linear-gradient(135deg, #e6ca65 0%, #c59b27 100%);
-            --bg-body: #ffffff;
-            --text-dark: #2c3e50;
-            --text-muted: #576574;
-            --radius-medium: 10px;
+            --bg-body: #f4f6f8;
+            --text-dark: #1a252f;
+            --text-muted: #4a5568;
+            --radius-medium: 14px;
             --radius-pill: 50px;
         }
 
@@ -38,8 +38,8 @@
             background-color: var(--bg-body);
             color: var(--text-dark);
             font-family: 'Tajawal', sans-serif;
-            font-size: 16px;
-            line-height: 1.7;
+            font-size: 18px; /* تكبير الخط الأساسي */
+            line-height: 1.8;
             overflow-x: hidden;
             touch-action: manipulation;
         }
@@ -50,10 +50,10 @@
             align-items: center;
         }
 
-        /* Full Screen Container - Compact & Edge-to-Edge */
+        /* Container Design */
         .book-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             height: 100vh;
             height: 100dvh;
             background: #ffffff;
@@ -63,42 +63,45 @@
             position: relative;
         }
 
-        @media (min-width: 601px) {
-            body {
-                background-color: #eef1f3;
-            }
+        @media (min-width: 651px) {
             .book-container {
                 height: 96vh;
-                border-radius: 16px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                border-radius: 20px;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.12);
                 border: 1px solid rgba(212, 175, 55, 0.3);
                 overflow: hidden;
             }
         }
 
-        /* Scrollable Page Wrapper - Minimized padding */
+        /* Scrollable Pages Wrapper */
         .pages-wrapper {
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 12px 14px 15px 14px; /* Tight padding to eliminate white gaps */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .page {
             display: none;
+            width: 100%;
+            margin: auto 0; /* يجعل المحتوى متواسطاً رأسياً في حال كان قصيراً ويمحو الفراغات البيضاء */
             animation: fadeIn 0.25s ease-in-out;
         }
 
         .page.active {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* COVER PAGE STYLING - FULL BLEED */
+        /* COVER PAGE STYLING */
         .cover-page {
             text-align: center;
             display: flex;
@@ -108,158 +111,160 @@
             min-height: 100%;
             background: linear-gradient(135deg, #0d3b2e 0%, #061c16 100%);
             color: #ffffff;
-            margin: -12px -14px -15px -14px; /* Pull to edge */
-            padding: 30px 18px;
+            margin: -20px;
+            padding: 40px 24px;
+            border-radius: inherit;
         }
 
         .cover-badge {
             font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--gold-accent);
             background: rgba(212, 175, 55, 0.15);
-            padding: 4px 14px;
+            padding: 6px 18px;
             border-radius: var(--radius-pill);
             border: 1px solid var(--gold-accent);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .cover-title {
             font-family: 'Cairo', sans-serif;
-            font-size: 2.1rem;
+            font-size: 2.5rem; /* خط عريض وكبير */
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 12px;
-            line-height: 1.25;
+            margin-bottom: 16px;
+            line-height: 1.3;
         }
 
         .cover-subtitle {
-            font-size: 1.05rem;
+            font-size: 1.25rem;
             color: #e0e8e5;
-            margin: 0 auto 25px auto;
-            line-height: 1.6;
+            margin: 0 auto 30px auto;
+            line-height: 1.7;
         }
 
         .btn-start {
             font-family: 'Cairo', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: 700;
             background: var(--gold-gradient);
             color: #111111;
-            padding: 12px 30px;
+            padding: 14px 36px;
             border: none;
             border-radius: var(--radius-pill);
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-            width: 85%;
-            max-width: 260px;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            width: 90%;
+            max-width: 280px;
         }
 
-        /* QURAN CONTAINER - COMPACT */
+        /* QURAN CONTAINER - LARGE & CLEAR TEXT */
         .quran-container {
-            background: #fdfcf7;
-            border: 1px solid var(--gold-soft);
+            background: #fcfbf7;
+            border: 2px solid var(--gold-soft);
             border-radius: var(--radius-medium);
-            padding: 14px 12px;
-            margin: 8px 0;
+            padding: 22px 18px;
+            margin: 15px 0;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
 
         .quran-verse {
             font-family: 'Amiri Quran', serif;
-            font-size: 1.2rem;
-            line-height: 2.2;
+            font-size: 1.7rem; /* تكبير آيات القرآن بشكل كبير وواضح */
+            line-height: 2.5;
             color: var(--primary-emerald);
             text-align: justify;
             text-align-last: center;
         }
 
         .quran-surah-ref {
-            margin-top: 10px;
+            margin-top: 16px;
             font-family: 'Cairo', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             color: var(--burgundy);
             font-weight: 700;
         }
 
-        /* HEADINGS & TEXT - MINIMIZED MARGINS */
+        /* HEADINGS & TEXT */
         .section-title {
             font-family: 'Cairo', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.6rem; /* عنوان واضح وكبير */
+            font-weight: 800;
             color: var(--primary-emerald);
-            margin-bottom: 10px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 6px;
+            gap: 10px;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 8px;
         }
 
         .section-title::before {
             content: '';
-            width: 5px;
-            height: 18px;
+            width: 6px;
+            height: 24px;
             background: var(--gold-accent);
-            border-radius: 3px;
+            border-radius: 4px;
             display: inline-block;
         }
 
         .paragraph {
             text-align: justify;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
             color: var(--text-dark);
-            font-size: 1.05rem;
-            line-height: 1.8;
+            font-size: 1.2rem; /* تكبير خط القصة */
+            line-height: 1.9;
         }
 
-        /* DIALOGUE BOX - COMPACT */
+        /* DIALOGUE BOX */
         .dialogue-box {
-            background-color: #f7faf8;
-            border-right: 4px solid var(--primary-emerald);
+            background-color: #f4f8f6;
+            border-right: 5px solid var(--primary-emerald);
             border-radius: var(--radius-medium);
-            padding: 10px 12px;
-            margin: 10px 0;
+            padding: 14px 16px;
+            margin: 16px 0;
         }
 
         .dialogue-speaker {
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
             color: var(--burgundy);
-            margin-bottom: 2px;
-            font-size: 0.95rem;
+            margin-bottom: 4px;
+            font-size: 1.1rem;
         }
 
         .dialogue-text {
             color: var(--primary-emerald);
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            line-height: 1.65;
+            line-height: 1.8;
         }
 
         .highlight-card {
-            background: #fffbf0;
-            border: 1px solid var(--gold-accent);
+            background: #fffdf5;
+            border: 2px solid var(--gold-accent);
             border-radius: var(--radius-medium);
-            padding: 12px;
-            margin: 10px 0;
+            padding: 16px;
+            margin: 16px 0;
             text-align: center;
         }
 
-        /* LESSON CARDS - COMPACT GRID */
+        /* LESSON CARDS */
         .lessons-grid {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 12px;
+            margin-top: 10px;
         }
 
         .lesson-card {
             background: #ffffff;
             border-radius: var(--radius-medium);
-            padding: 10px 12px;
-            border: 1px solid #eef0f2;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
             position: relative;
         }
 
@@ -267,7 +272,7 @@
             content: '';
             position: absolute;
             top: 0; right: 0; left: 0;
-            height: 3px;
+            height: 4px;
             background: var(--gold-gradient);
             border-radius: var(--radius-medium) var(--radius-medium) 0 0;
         }
@@ -275,18 +280,18 @@
         .lesson-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 4px;
+            gap: 10px;
+            margin-bottom: 6px;
         }
 
         .lesson-number {
             font-family: 'Cairo', sans-serif;
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 800;
             color: var(--primary-emerald);
-            background: rgba(13, 59, 46, 0.08);
-            width: 24px;
-            height: 24px;
+            background: rgba(13, 59, 46, 0.1);
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -296,33 +301,32 @@
 
         .lesson-title {
             font-family: 'Cairo', sans-serif;
-            font-size: 1.05rem;
+            font-size: 1.2rem;
             color: var(--burgundy);
             font-weight: 700;
         }
 
         .lesson-desc {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         /* CONCLUSION BOX */
         .conclusion-box {
             background: linear-gradient(135deg, var(--primary-emerald) 0%, #124e3d 100%);
             color: #ffffff;
-            padding: 18px 14px;
+            padding: 24px 18px;
             border-radius: var(--radius-medium);
-            margin-top: 5px;
             text-align: center;
         }
 
-        /* COMPACT BOTTOM NAVIGATION BAR */
+        /* NAVIGATION BAR */
         .nav-bar {
             background: #ffffff;
-            border-top: 1px solid #eaeaea;
-            padding: 8px 14px;
-            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            border-top: 1px solid #e2e8f0;
+            padding: 12px 18px;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -331,17 +335,17 @@
 
         .nav-btn {
             font-family: 'Cairo', sans-serif;
-            font-size: 0.9rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            background: #f4f6f8;
+            background: #f1f5f9;
             color: var(--primary-emerald);
-            border: 1px solid #dce2e6;
-            padding: 6px 16px;
+            border: 1px solid #cbd5e1;
+            padding: 8px 20px;
             border-radius: var(--radius-pill);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
 
         .nav-btn:active {
@@ -355,17 +359,18 @@
             border: none;
             width: 100%;
             justify-content: center;
-            padding: 8px 16px;
+            padding: 10px 20px;
         }
 
         .page-indicator {
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
             color: var(--text-muted);
-            font-size: 0.8rem;
-            background: #f8f9fa;
-            padding: 3px 10px;
-            border-radius: 10px;
+            font-size: 0.95rem;
+            background: #f8fafc;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
         }
 
         .hidden {
@@ -435,7 +440,7 @@
                 <div class="highlight-card">
                     <p class="paragraph" style="margin-bottom: 0; text-align: center;">
                         فأخذ الغلام حجرًا صغيرًا وقال بقلب صادق: <br>
-                        <strong style="color: var(--burgundy); font-size: 1.1rem;">"اللهم إن كان أمر الراهب أحب إليك من أمر الساحر، فاقتل هذه الدابة حتى يمضي الناس."</strong><br>
+                        <strong style="color: var(--burgundy); font-size: 1.25rem;">"اللهم إن كان أمر الراهب أحب إليك من أمر الساحر، فاقتل هذه الدابة حتى يمضي الناس."</strong><br>
                         ورمى الحجر، فقتلت الدابة فورًا، وعدّى الناس آمنين!
                     </p>
                 </div>
@@ -449,7 +454,7 @@
             <!-- PAGE 6: HEALING -->
             <div class="page" id="page-6">
                 <h2 class="section-title">الشفاء وإيمان جليس الملك</h2>
-                <p class="paragraph">مع الوقت، بدأ أمر الغلام ينتشر في المدينة، وكان ربنا يجري على يديه الشفاء، فكان يدعو الله للمرضى فيشفيهم الله. وكان الغلام دايمًا تؤكد للناس:</p>
+                <p class="paragraph">مع الوقت، بدأ أمر الغلام ينتشر في المدينة، وكان ربنا يجري على يديه الشفاء، فكان يدعو الله للمرضى فيشفيهم الله. وكان الغلام دايمًا يؤكد للناس:</p>
                 <div class="dialogue-box">
                     <div class="dialogue-speaker">الغلام للمرضى:</div>
                     <div class="dialogue-text">"أنا لا أشفي أحدًا، إنما يشفي الله."</div>
@@ -472,7 +477,7 @@
                 <h2 class="section-title">محاولات القتل والنجاة الإلهية</h2>
                 <p class="paragraph">قال الملك للغلام: "ارجع عن دينك!" لكن الغلام رفض. فأمر الملك جنوده أن يأخذوه إلى أعلى جبل، وإذا لم يرجع عن دينه يلقوه من فوقه.</p>
                 <p class="paragraph">ذهبوا به إلى الجبل، وهناك رفع الغلام يديه وقال: <br>
-                    <strong style="color: var(--burgundy); font-size: 1.1rem; display: block; text-align: center; margin: 4px 0;">"اللهم اكفنيهم بما شئت!"</strong>
+                    <strong style="color: var(--burgundy); font-size: 1.25rem; display: block; text-align: center; margin: 6px 0;">"اللهم اكفنيهم بما شئت!"</strong>
                     فاهتز الجبل وسقط الجنود جميعًا، ونجا الغلام ورجع يمشي للملك!
                 </p>
                 <p class="paragraph">فأرسله الملك مع مجموعة أخرى في سفينة لوسط البحر لقذفه فيه. فقال الغلام: <strong>"اللهم اكفنيهم بما شئت!"</strong> فانقلبت السفينة وغرق الجنود، ونجا الغلام ورجع للملك مرة أخرى!</p>
@@ -487,11 +492,11 @@
                     <div class="dialogue-text">"أنت مش هتقدر تقتلني إلا لو جمعت الناس كلهم في مكان واحد، واربطني على جذع شجرة، وخد سهمًا من كنانتي، وقل: [ باسم الله رب الغلام ]، وبعدين ارميني بالسهم."</div>
                 </div>
                 <p class="paragraph">وافق الملك، وجمع الناس كلهم، وربط الغلام، وأخذ السهم وقال أمام الجميع: <br>
-                    <strong style="color: var(--primary-emerald); font-size: 1.15rem; display: block; text-align: center; margin: 4px 0;">"باسم الله رب الغلام"</strong>
+                    <strong style="color: var(--primary-emerald); font-size: 1.3rem; display: block; text-align: center; margin: 6px 0;">"باسم الله رب الغلام"</strong>
                     ثم أطلق السهم أصاب الغلام فاستشهد.
                 </p>
                 <p class="paragraph">وهنا حصلت المعجزة الكبرى؛ إذ صرخ آلاف الناس بصوت واحد: <br>
-                    <strong style="color: var(--burgundy); font-size: 1.2rem; display: block; text-align: center; margin: 4px 0;">"آمنا برب الغلام!"</strong>
+                    <strong style="color: var(--burgundy); font-size: 1.35rem; display: block; text-align: center; margin: 6px 0;">"آمنا برب الغلام!"</strong>
                 </p>
             </div>
 
@@ -503,7 +508,7 @@
                 <div class="dialogue-box">
                     <div class="dialogue-speaker">معجزة الطفل الرضيع:</div>
                     <div class="dialogue-text">جاءت امرأة معها طفلها الصغير ووقفت مترددة أمام النار شفقة بطفلها، فأنطق الله الرضيع فقال لها: <br>
-                    <span style="color: var(--primary-emerald); font-size: 1.05rem; font-weight: bold;">"يا أُمَّه، اصبري فإنك على الحق!"</span></div>
+                    <span style="color: var(--primary-emerald); font-size: 1.2rem; font-weight: bold;">"يا أُمَّه، اصبري فإنك على الحق!"</span></div>
                 </div>
                 <p class="paragraph">فثبتت المرأة وألقت بنفسها في النار مع المؤمنين، وسطروا أعظم ملحمة في الثبات.</p>
             </div>
@@ -549,11 +554,11 @@
             <!-- PAGE 12: CONCLUSION -->
             <div class="page" id="page-12">
                 <div class="conclusion-box">
-                    <h2 style="font-family: 'Cairo', sans-serif; font-size: 1.5rem; color: var(--gold-accent); margin-bottom: 8px; font-weight: 800;">الخلاصة والختام</h2>
-                    <p style="font-size: 1rem; line-height: 1.75; color: #f0f4f2; margin-bottom: 14px;">
+                    <h2 style="font-family: 'Cairo', sans-serif; font-size: 1.7rem; color: var(--gold-accent); margin-bottom: 12px; font-weight: 800;">الخلاصة والختام</h2>
+                    <p style="font-size: 1.15rem; line-height: 1.85; color: #f0f4f2; margin-bottom: 16px;">
                         قصة أصحاب الأخدود هي ملحمة في قوة الإيمان عند مواجهة الخوف، والتضحية بالذات لأجل أن تحيا المبادئ. الغلام انتصر لأنه جعل كلمة الله هي العليا ووصل بالحق إلى قلوب جميع الناس.
                     </p>
-                    <div style="font-family: 'Amiri Quran', serif; font-size: 1.15rem; color: #ffffff; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px dashed var(--gold-accent);">
+                    <div style="font-family: 'Amiri Quran', serif; font-size: 1.35rem; color: #ffffff; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 10px; border: 1px dashed var(--gold-accent); line-height: 2.2;">
                         ﴿ إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ لَهُمْ جَنَّاتٌ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ۚ ذَٰلِكَ الْفَوْزُ الْكَبِيرُ ﴾
                     </div>
                 </div>
@@ -561,7 +566,7 @@
 
         </div>
 
-        <!-- FIXED COMPACT NAVIGATION BAR -->
+        <!-- FIXED NAVIGATION BAR -->
         <div class="nav-bar hidden" id="nav-bar">
             <button class="nav-btn" id="btn-prev" onclick="prevPage()">
                 ► السابق
