@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>كتاب قصة أصحاب الأخدود التفاعلي</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-emerald: #0d3b2e;
+            --primary-light: #165b48;
+            --burgundy: #722f37;
+            --burgundy-light: #8e3b45;
+            --gold-accent: #d4af37;
+            --gold-soft: #f4e8c1;
+            --gold-gradient: linear-gradient(135deg, #e6ca65 0%, #c59b27 100%);
+            --bg-body: #ffffff;
+            --text-dark: #2c3e50;
+            --text-muted: #576574;
+            --radius-medium: 10px;
+            --radius-pill: 50px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Full Screen Container - Compact & Edge-to-Edge */
+        .book-container {
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            height: 100dvh;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        @media (min-width: 601px) {
+            body {
+                background-color: #eef1f3;
+            }
+            .book-container {
+                height: 96vh;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                border: 1px solid rgba(212, 175, 55, 0.3);
+                overflow: hidden;
+            }
+        }
+
+        /* Scrollable Page Wrapper - Minimized padding */
+        .pages-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px 14px 15px 14px; /* Tight padding to eliminate white gaps */
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* COVER PAGE STYLING - FULL BLEED */
+        .cover-page {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            background: linear-gradient(135deg, #0d3b2e 0%, #061c16 100%);
+            color: #ffffff;
+            margin: -12px -14px -15px -14px; /* Pull to edge */
+            padding: 30px 18px;
+        }
+
+        .cover-badge {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gold-accent);
+            background: rgba(212, 175, 55, 0.15);
+            padding: 4px 14px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--gold-accent);
+            margin-bottom: 15px;
+        }
+
+        .cover-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .cover-subtitle {
+            font-size: 1.05rem;
+            color: #e0e8e5;
+            margin: 0 auto 25px auto;
+            line-height: 1.6;
+        }
+
+        .btn-start {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gold-gradient);
+            color: #111111;
+            padding: 12px 30px;
+            border: none;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            width: 85%;
+            max-width: 260px;
+        }
+
+        /* QURAN CONTAINER - COMPACT */
+        .quran-container {
+            background: #fdfcf7;
+            border: 1px solid var(--gold-soft);
+            border-radius: var(--radius-medium);
+            padding: 14px 12px;
+            margin: 8px 0;
+            text-align: center;
+        }
+
+        .quran-verse {
+            font-family: 'Amiri Quran', serif;
+            font-size: 1.2rem;
+            line-height: 2.2;
+            color: var(--primary-emerald);
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        .quran-surah-ref {
+            margin-top: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            color: var(--burgundy);
+            font-weight: 700;
+        }
+
+        /* HEADINGS & TEXT - MINIMIZED MARGINS */
+        .section-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-emerald);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 6px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 5px;
+            height: 18px;
+            background: var(--gold-accent);
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .paragraph {
+            text-align: justify;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        /* DIALOGUE BOX - COMPACT */
+        .dialogue-box {
+            background-color: #f7faf8;
+            border-right: 4px solid var(--primary-emerald);
+            border-radius: var(--radius-medium);
+            padding: 10px 12px;
+            margin: 10px 0;
+        }
+
+        .dialogue-speaker {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            color: var(--burgundy);
+            margin-bottom: 2px;
+            font-size: 0.95rem;
+        }
+
+        .dialogue-text {
+            color: var(--primary-emerald);
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.65;
+        }
+
+        .highlight-card {
+            background: #fffbf0;
+            border: 1px solid var(--gold-accent);
+            border-radius: var(--radius-medium);
+            padding: 12px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        /* LESSON CARDS - COMPACT GRID */
+        .lessons-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .lesson-card {
+            background: #ffffff;
+            border-radius: var(--radius-medium);
+            padding: 10px 12px;
+            border: 1px solid #eef0f2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            position: relative;
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 3px;
+            background: var(--gold-gradient);
+            border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+        }
+
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .lesson-number {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary-emerald);
+            background: rgba(13, 59, 46, 0.08);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .lesson-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.05rem;
+            color: var(--burgundy);
+            font-weight: 700;
+        }
+
+        .lesson-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* CONCLUSION BOX */
+        .conclusion-box {
+            background: linear-gradient(135deg, var(--primary-emerald) 0%, #124e3d 100%);
+            color: #ffffff;
+            padding: 18px 14px;
+            border-radius: var(--radius-medium);
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        /* COMPACT BOTTOM NAVIGATION BAR */
+        .nav-bar {
+            background: #ffffff;
+            border-top: 1px solid #eaeaea;
+            padding: 8px 14px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            background: #f4f6f8;
+            color: var(--primary-emerald);
+            border: 1px solid #dce2e6;
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-btn:active {
+            background: var(--primary-emerald);
+            color: #ffffff;
+        }
+
+        .nav-btn-restart {
+            background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-light) 100%);
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            justify-content: center;
+            padding: 8px 16px;
+        }
+
+        .page-indicator {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            background: #f8f9fa;
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="book-container">
+
+        <!-- Scrollable Pages Wrapper -->
+        <div class="pages-wrapper" id="pages-wrapper">
+
+            <!-- PAGE 1: COVER -->
+            <div class="page active" id="page-1">
+                <div class="cover-page">
+                    <div class="cover-badge">📖 كِتَابٌ تَفَاعُلِيٌّ مُمَيَّز</div>
+                    <h1 class="cover-title">قِصَّةُ أَصْحَابِ الأُخْدُودِ</h1>
+                    <div class="cover-subtitle">قصة الغُلامِ الَّذِي غَيَّرَ أُمَّةً كَامِلَةً وَخَلَّدَ اللهُ ذِكْرَهُ فِي القُرْآنِ الكَرِيمِ</div>
+                    <button class="btn-start" onclick="goToPage(2)">✨ ابدأ القراءة ✨</button>
+                </div>
+            </div>
+
+            <!-- PAGE 2: QURAN -->
+            <div class="page" id="page-2">
+                <h2 class="section-title">الآيات القرآنيّة الكريمة</h2>
+                <section class="quran-container">
+                    <div class="quran-verse">
+                        ﴿ قُتِلَ أَصْحَٰبُ ٱلۡأُخۡدُودِ ۝ ٱلنَّارِ ذَاتِ ٱلۡوَقُودِ ۝ إِذۡ هُمۡ عَلَيۡهَا قُعُودٌ ۝ وَهُمۡ عَلَىٰ مَا يَفۡعَلُونَ بِٱلۡمُؤۡمِنينَ شُهُودٌ ۝ وَمَا نَقَمُواْ مِنۡهُمۡ إِلَّآ أَن يُؤۡمِنُواْ بِٱللَّهِ ٱلۡعَزِيزِ ٱلۡحَمِيدِ ۝ ٱلَّذِي لَهُۥ مُلۡكُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۚ وَٱللَّهُ عَلَىٰ كُلِّ شَيۡءٍ شَهِيدٌ ۝ إِنَّ ٱلَّذِينَ فَتَنُواْ ٱلۡمُؤۡمِنِينَ وَٱلۡمُؤۡمِنَٰتِ ثُمَّ لَمۡ يَتُوبُواْ فَلَهُمۡ عَذَابُ جَنَّمَ وَلَهُمۡ عَذَابُ ٱلۡحَرِيقِ ۝ إِنَّ ٱلَّذِينَ ءَامَنُواْ وَعَمِلُواْ ٱلصَّٰلِحَٰتِ لَهُمۡ جَنَّٰتٌ تَجۡرِي مِن تَحۡتِهَا ٱلۡأَنۡهَٰرُۚ ذَٰلِكَ ٱلۡفَوْزُ ٱلۡكَبِيرُ ﴾
+                    </div>
+                    <div class="quran-surah-ref">[ سورة البروج: الآيات ٤ - ١١ ]</div>
+                </section>
+            </div>
+
+            <!-- PAGE 3: BEGINNING -->
+            <div class="page" id="page-3">
+                <h2 class="section-title">بداية القصة: الملك والساحر</h2>
+                <p class="paragraph">
+                    من زمان جدًا، وفي أرض نجران، كان فيه ملك ظالم ومستبد، وكان عايز الناس كلها تطيعه وتؤمن بيه كإله. وكان عنده ساحر كبير في السن بيستخدم السحر والخداع عشان يخوّف الناس ويثبت للملك قوته وسلطانه.
+                </p>
+                <p class="paragraph">ولما الساحر كبر في السن وشعر بقرب أجله، قال للملك:</p>
+                <div class="dialogue-box">
+                    <div class="dialogue-speaker">الساحر للملك:</div>
+                    <div class="dialogue-text">"أنا كبرت في السن، ابعت لي غلامًا صغيرًا ذكيًا أعلمه السحر، عشان يكمل مكاني ولا ينقطع سلطانك."</div>
+                </div>
+                <p class="paragraph">وفعلًا، اختار الملك غلامًا فطنًا، وبدأ الغلام يروح للساحر كل يوم عشان يتعلم منه أسرار السحر.</p>
+            </div>
+
+            <!-- PAGE 4: MONK -->
+            <div class="page" id="page-4">
+                <h2 class="section-title">الغلام والراهب</h2>
+                <p class="paragraph">لكن ربنا كان كاتب للغلام طريقًا تاني خالص... في طريق الغلام للساحر، كان فيه راهب مؤمن يعبد الله وحده.</p>
+                <p class="paragraph">وفي يوم، دخل الغلام عند الراهب وسمع كلامه عن الله والإيمان والتوحيد، فالكلام دخل قلبه واستقر فيه. وبقى كل يوم يقعد مع الراهب يتعلم منه، وبعدها يروح للساحر.</p>
+                <p class="paragraph">لكن كان عنده مشكلة كبيرة: لو اتأخر عن الساحر، الساحر يضربه. ولو اتأخر في الرجوع لأهله، أهله يلوموه. فقال له الراهب الحكيم:</p>
+                <div class="dialogue-box">
+                    <div class="dialogue-speaker">الراهب للغلام:</div>
+                    <div class="dialogue-text">"لو الساحر سألك عن سبب تأخيرك، قوله: أهلي أخرواني. ولو أهلك سألوك، قول لهم: الساحر أخرني."</div>
+                </div>
+                <p class="paragraph">وبكده قدر الغلام يستمر في التعلم من الراهب ويحفظ إيمانه من غير ما حد يعرف سره.</p>
+            </div>
+
+            <!-- PAGE 5: BEAST -->
+            <div class="page" id="page-5">
+                <h2 class="section-title">الدابة العظيمة واليقين</h2>
+                <p class="paragraph">وفي يوم من الأيام، ظهرت دابة ضخمة ومرعبة وقفت في طريق الناس، ومنعتهم من المرور وكان الجميع خائفين. فقال الغلام في نفسه: <em>"النهارده هعرف مين على الحق، الساحر ولا الراهب؟"</em></p>
+                <div class="highlight-card">
+                    <p class="paragraph" style="margin-bottom: 0; text-align: center;">
+                        فأخذ الغلام حجرًا صغيرًا وقال بقلب صادق: <br>
+                        <strong style="color: var(--burgundy); font-size: 1.1rem;">"اللهم إن كان أمر الراهب أحب إليك من أمر الساحر، فاقتل هذه الدابة حتى يمضي الناس."</strong><br>
+                        ورمى الحجر، فقتلت الدابة فورًا، وعدّى الناس آمنين!
+                    </p>
+                </div>
+                <p class="paragraph">رجع الغلام للراهب وحكى له اللي حصل، فقال له الراهب بنور بصيرته:</p>
+                <div class="dialogue-box">
+                    <div class="dialogue-speaker">الراهب للغلام:</div>
+                    <div class="dialogue-text">"يا بني، أنت اليوم أفضل مني، وقد بلغ من أمرك ما أرى، وإنك ستُبتلى، فإن ابتُليت فلا تدل عليّ."</div>
+                </div>
+            </div>
+
+            <!-- PAGE 6: HEALING -->
+            <div class="page" id="page-6">
+                <h2 class="section-title">الشفاء وإيمان جليس الملك</h2>
+                <p class="paragraph">مع الوقت، بدأ أمر الغلام ينتشر في المدينة، وكان ربنا يجري على يديه الشفاء، فكان يدعو الله للمرضى فيشفيهم الله. وكان الغلام دايمًا تؤكد للناس:</p>
+                <div class="dialogue-box">
+                    <div class="dialogue-speaker">الغلام للمرضى:</div>
+                    <div class="dialogue-text">"أنا لا أشفي أحدًا، إنما يشفي الله."</div>
+                </div>
+                <p class="paragraph">وفي يوم، سمع أحد رجال الملك المقربين (وكان قد فقد بصره) عن الغلام. فذهب إليه ومعه هدايا كثيرة وقال: "كل ده ليك لو شفيتني!"</p>
+                <p class="paragraph">فقال الغلام: "أنا لا أشفي أحدًا، إنما يشفي الله. فإن آمنت بالله دعوت الله فشفاك." فآمن الرجل بالله من فوره، ودعا الغلام ربه، فشفاه الله ورد إليه بصره!</p>
+            </div>
+
+            <!-- PAGE 7: KING DISCOVERS -->
+            <div class="page" id="page-7">
+                <h2 class="section-title">الملك يعرف الحقيقة والغضب</h2>
+                <p class="paragraph">ذهب الرجل إلى الملك وجلس عنده كما كان يفعل، فلما رآه مبصرًا قال له الملك متعجبًا: "مين رجع لك بصرك؟" فقال الرجل بثبات: <strong>"ربي!"</strong></p>
+                <p class="paragraph">فغضب الملك وقال: "ولك رب غيري؟!" فقال الرجل: <strong>"ربي وربك الله!"</strong></p>
+                <p class="paragraph">فغضب الملك جدًا وبدأ يعذبه حتى دلّ على الغلام. فأحضر الغلام وعذبه حتى دلّ على الراهب.</p>
+                <p class="paragraph">أحضر الملك الراهب وقال له: "ارجع عن دينك!" فرفض الراهب، فقتله الملك بالمنشار! ثم أحضر الرجل الذي شُفي وقال له: "ارجع عن دينك!" فرفض، فقتله أيضًا! وبعد ذلك جاء دور الغلام.</p>
+            </div>
+
+            <!-- PAGE 8: TRIALS -->
+            <div class="page" id="page-8">
+                <h2 class="section-title">محاولات القتل والنجاة الإلهية</h2>
+                <p class="paragraph">قال الملك للغلام: "ارجع عن دينك!" لكن الغلام رفض. فأمر الملك جنوده أن يأخذوه إلى أعلى جبل، وإذا لم يرجع عن دينه يلقوه من فوقه.</p>
+                <p class="paragraph">ذهبوا به إلى الجبل، وهناك رفع الغلام يديه وقال: <br>
+                    <strong style="color: var(--burgundy); font-size: 1.1rem; display: block; text-align: center; margin: 4px 0;">"اللهم اكفنيهم بما شئت!"</strong>
+                    فاهتز الجبل وسقط الجنود جميعًا، ونجا الغلام ورجع يمشي للملك!
+                </p>
+                <p class="paragraph">فأرسله الملك مع مجموعة أخرى في سفينة لوسط البحر لقذفه فيه. فقال الغلام: <strong>"اللهم اكفنيهم بما شئت!"</strong> فانقلبت السفينة وغرق الجنود، ونجا الغلام ورجع للملك مرة أخرى!</p>
+            </div>
+
+            <!-- PAGE 9: PLAN & MARTYRDOM -->
+            <div class="page" id="page-9">
+                <h2 class="section-title">خطة الغلام والشهادة الخالدة</h2>
+                <p class="paragraph">عرف الغلام أن الملك لن يقدر على قتله إلا بطريقة واحدة تعلن الحق للجميع، فقال للملك:</p>
+                <div class="dialogue-box">
+                    <div class="dialogue-speaker">الغلام للملك:</div>
+                    <div class="dialogue-text">"أنت مش هتقدر تقتلني إلا لو جمعت الناس كلهم في مكان واحد، واربطني على جذع شجرة، وخد سهمًا من كنانتي، وقل: [ باسم الله رب الغلام ]، وبعدين ارميني بالسهم."</div>
+                </div>
+                <p class="paragraph">وافق الملك، وجمع الناس كلهم، وربط الغلام، وأخذ السهم وقال أمام الجميع: <br>
+                    <strong style="color: var(--primary-emerald); font-size: 1.15rem; display: block; text-align: center; margin: 4px 0;">"باسم الله رب الغلام"</strong>
+                    ثم أطلق السهم أصاب الغلام فاستشهد.
+                </p>
+                <p class="paragraph">وهنا حصلت المعجزة الكبرى؛ إذ صرخ آلاف الناس بصوت واحد: <br>
+                    <strong style="color: var(--burgundy); font-size: 1.2rem; display: block; text-align: center; margin: 4px 0;">"آمنا برب الغلام!"</strong>
+                </p>
+            </div>
+
+            <!-- PAGE 10: TRENCH -->
+            <div class="page" id="page-10">
+                <h2 class="section-title">الأخدود والثبات على الحق</h2>
+                <p class="paragraph">غضب الملك جدًا بعد أن آمن الناس كلهم، وأمر بحفر خنادق كبيرة (أخاديد) في الأرض وأشعل فيها النيران العظيمة.</p>
+                <p class="paragraph">وقال: "من لم يرجع عن دينه، سنلقيه في النار!" لكن الناس ثبتوا على إيمانهم ولم يتراجعوا لأنهم عرفوا أن الله أقوى من كل شيء.</p>
+                <div class="dialogue-box">
+                    <div class="dialogue-speaker">معجزة الطفل الرضيع:</div>
+                    <div class="dialogue-text">جاءت امرأة معها طفلها الصغير ووقفت مترددة أمام النار شفقة بطفلها، فأنطق الله الرضيع فقال لها: <br>
+                    <span style="color: var(--primary-emerald); font-size: 1.05rem; font-weight: bold;">"يا أُمَّه، اصبري فإنك على الحق!"</span></div>
+                </div>
+                <p class="paragraph">فثبتت المرأة وألقت بنفسها في النار مع المؤمنين، وسطروا أعظم ملحمة في الثبات.</p>
+            </div>
+
+            <!-- PAGE 11: LESSONS -->
+            <div class="page" id="page-11">
+                <h2 class="section-title">ماذا نتعلم من القصة؟</h2>
+                <div class="lessons-grid">
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <span class="lesson-number">١</span>
+                            <div class="lesson-title">الحق ليس بالقوة ⚖️</div>
+                        </div>
+                        <div class="lesson-desc">الملك كان عنده جيش وسلاح، والغلام كان يملك الإيمان فقط.. مات الملك وانتصر إيمان الغلام الخالد.</div>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <span class="lesson-number">٢</span>
+                            <div class="lesson-title">فرد واحد يغير أمة 🌱</div>
+                        </div>
+                        <div class="lesson-desc">إيمان غلام صغير وثباته الشجاع كان السبب الرئيسي في هداية وإيمان شعب بأكمله.</div>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <span class="lesson-number">٣</span>
+                            <div class="lesson-title">نسب الفضل لله 🤲</div>
+                        </div>
+                        <div class="lesson-desc">الغلام كان دائم التواضع ويقول للمرضى: "إنما يشفي الله" ولا ينسب الفضل والإنجاز لنفسه.</div>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <span class="lesson-number">٤</span>
+                            <div class="lesson-title">مفهوم النصر الحقيقي 🏆</div>
+                        </div>
+                        <div class="lesson-desc">النصر ليس مجرد سلامة الجسد، بل هو الثبات على المبدأ والحق حتى أخر لحظة في الحياة.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 12: CONCLUSION -->
+            <div class="page" id="page-12">
+                <div class="conclusion-box">
+                    <h2 style="font-family: 'Cairo', sans-serif; font-size: 1.5rem; color: var(--gold-accent); margin-bottom: 8px; font-weight: 800;">الخلاصة والختام</h2>
+                    <p style="font-size: 1rem; line-height: 1.75; color: #f0f4f2; margin-bottom: 14px;">
+                        قصة أصحاب الأخدود هي ملحمة في قوة الإيمان عند مواجهة الخوف، والتضحية بالذات لأجل أن تحيا المبادئ. الغلام انتصر لأنه جعل كلمة الله هي العليا ووصل بالحق إلى قلوب جميع الناس.
+                    </p>
+                    <div style="font-family: 'Amiri Quran', serif; font-size: 1.15rem; color: #ffffff; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px dashed var(--gold-accent);">
+                        ﴿ إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ لَهُمْ جَنَّاتٌ تَجْرِي مِنْ تَحْتِهَا الْأَنْهَارُ ۚ ذَٰلِكَ الْفَوْزُ الْكَبِيرُ ﴾
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FIXED COMPACT NAVIGATION BAR -->
+        <div class="nav-bar hidden" id="nav-bar">
+            <button class="nav-btn" id="btn-prev" onclick="prevPage()">
+                ► السابق
+            </button>
+            
+            <span class="page-indicator" id="page-indicator">1 / 11</span>
+            
+            <button class="nav-btn" id="btn-next" onclick="nextPage()">
+                التالي ◄
+            </button>
+
+            <button class="nav-btn nav-btn-restart hidden" id="btn-restart" onclick="goToPage(1)">
+                🔄 إعادة القراءة من البداية
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 12;
+        const pagesWrapper = document.getElementById('pages-wrapper');
+
+        function updateNavigation() {
+            const navBar = document.getElementById('nav-bar');
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            const btnRestart = document.getElementById('btn-restart');
+            const pageIndicator = document.getElementById('page-indicator');
+
+            if (currentPage === 1) {
+                navBar.classList.add('hidden');
+            } else {
+                navBar.classList.remove('hidden');
+            }
+
+            pageIndicator.innerText = `${currentPage - 1} / ${totalPages - 1}`;
+
+            if (currentPage === 2) {
+                btnPrev.style.visibility = 'hidden';
+            } else {
+                btnPrev.style.visibility = 'visible';
+            }
+
+            if (currentPage === totalPages) {
+                btnNext.classList.add('hidden');
+                btnPrev.classList.add('hidden');
+                pageIndicator.classList.add('hidden');
+                btnRestart.classList.remove('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+                btnPrev.classList.remove('hidden');
+                pageIndicator.classList.remove('hidden');
+                btnRestart.classList.add('hidden');
+            }
+        }
+
+        function goToPage(pageNum) {
+            if (pageNum < 1 || pageNum > totalPages) return;
+
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.getElementById(`page-${pageNum}`).classList.add('active');
+            currentPage = pageNum;
+            updateNavigation();
+            pagesWrapper.scrollTop = 0;
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 2) {
+                goToPage(currentPage - 1);
+            }
+        }
+
+        /* TOUCH SWIPE (السحب باليد) */
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        pagesWrapper.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        pagesWrapper.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const threshold = 40;
+            if (touchStartX - touchEndX > threshold) {
+                if (currentPage > 1) prevPage();
+            }
+            if (touchEndX - touchStartX > threshold) {
+                if (currentPage > 1) nextPage();
+            }
+        }
+
+        updateNavigation();
+    </script>
+</body>
+</html>
